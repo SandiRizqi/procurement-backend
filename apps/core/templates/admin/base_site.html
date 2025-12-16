@@ -1,0 +1,585 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ COMPANY_NAME }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        {{ COMPANY_NAME }}
+    </a>
+</h1>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/custom_admin.css' %}">
+
+<style>
+    /* ===========================
+       CRITICAL INLINE STYLES
+    =========================== */
+    :root {
+        --primary-orange: #FF6B35;
+        --primary-green: #3D5A3D;
+        --dark-green: #2A4030;
+        --light-green: #557E55;
+        --accent-orange: #FF8555;
+        --text-dark: #2c3e50;
+        --text-light: #6c757d;
+        --border-color: #e9ecef;
+        --bg-light: #f8f9fa;
+        --white: #ffffff;
+    }
+
+    /* ===========================
+       BODY & LAYOUT
+    =========================== */
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+        background: var(--bg-light) !important;
+    }
+
+    /* ===========================
+       HEADER
+    =========================== */
+    #header {
+        background: var(--primary-green) !important;
+        color: var(--white) !important;
+        padding: 14px 24px !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    /* Logo with Image */
+    #branding {
+        display: flex !important;
+        align-items: center !important;
+        gap: 16px !important;
+    }
+
+    #branding::before {
+        content: '' !important;
+        display: inline-block !important;
+        width: 48px !important;
+        height: 48px !important;
+        background-image: url('{% static "admin/img/logo-ks.jpg" %}') !important;
+        background-size: contain !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        border-radius: 8px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    #branding h1,
+    #branding h1 a {
+        color: var(--white) !important;
+        font-size: 20px !important;
+        font-weight: 700 !important;
+        margin: 0 !important;
+        text-decoration: none !important;
+    }
+
+    /* User Tools */
+    #user-tools {
+        color: var(--white) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+    }
+
+    #user-tools a {
+        color: var(--accent-orange) !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+    }
+
+    #user-tools a:hover {
+        color: var(--white) !important;
+    }
+
+    /* ===========================
+       BREADCRUMBS
+    =========================== */
+    .breadcrumbs {
+        background: var(--white) !important;
+        padding: 14px 24px !important;
+        border-bottom: 2px solid var(--border-color) !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+    }
+
+    .breadcrumbs a {
+        color: var(--primary-orange) !important;
+        text-decoration: none !important;
+        font-weight: 600 !important;
+    }
+
+    .breadcrumbs a:hover {
+        color: var(--dark-green) !important;
+    }
+
+    /* ===========================
+       CONTENT LAYOUT
+    =========================== */
+    #content {
+        padding: 24px !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+    }
+
+    /* Remove sidebar margin for change list */
+    .change-list #content {
+        margin-left: 0 !important;
+    }
+
+    .change-list #content-main {
+        width: 100% !important;
+        float: none !important;
+    }
+
+    /* ===========================
+       DASHBOARD WELCOME BOX
+    =========================== */
+    #content-main > div:first-child {
+        background: linear-gradient(135deg, var(--light-green) 0%, var(--dark-green) 100%) !important;
+        color: var(--white) !important;
+        padding: 32px 28px !important;
+        border-radius: 12px !important;
+        margin-bottom: 28px !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12) !important;
+        border: none !important;
+    }
+
+    #content-main > div:first-child h2 {
+        color: var(--white) !important;
+        font-size: 28px !important;
+        font-weight: 700 !important;
+        margin-bottom: 8px !important;
+    }
+
+    #content-main > div:first-child p {
+        color: rgba(255, 255, 255, 0.9) !important;
+        font-size: 15px !important;
+        line-height: 1.6 !important;
+    }
+
+    /* ===========================
+       DASHBOARD CARDS
+    =========================== */
+    #content-main > div:nth-child(2) {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+        gap: 20px !important;
+        margin-bottom: 24px !important;
+    }
+
+    #content-main > div:nth-child(2) > div {
+        background: var(--white) !important;
+        padding: 24px !important;
+        border-radius: 12px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+        transition: all 0.3s ease !important;
+        border-left: 4px solid var(--primary-orange) !important;
+        border: none !important;
+    }
+
+    #content-main > div:nth-child(2) > div:nth-child(even) {
+        border-left: 4px solid var(--primary-green) !important;
+    }
+
+    #content-main > div:nth-child(2) > div:hover {
+        transform: translateY(-4px) !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
+    }
+
+    #content-main > div:nth-child(2) > div h3 {
+        color: var(--dark-green) !important;
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        margin-bottom: 16px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+    }
+
+    #content-main > div:nth-child(2) > div table {
+        width: 100% !important;
+    }
+
+    #content-main > div:nth-child(2) > div table th {
+        text-align: left !important;
+        padding: 12px 8px !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        color: var(--text-dark) !important;
+        border-bottom: 2px solid var(--border-color) !important;
+    }
+
+    #content-main > div:nth-child(2) > div table td {
+        padding: 12px 8px !important;
+        font-size: 14px !important;
+        color: var(--text-dark) !important;
+    }
+
+    #content-main > div:nth-child(2) > div table td a {
+        color: var(--primary-orange) !important;
+        text-decoration: none !important;
+        font-weight: 600 !important;
+        transition: color 0.2s !important;
+    }
+
+    #content-main > div:nth-child(2) > div table td a:hover {
+        color: var(--dark-green) !important;
+        text-decoration: underline !important;
+    }
+
+    /* ===========================
+       CHANGELIST FILTER LAYOUT
+    =========================== */
+    /* Container flex untuk change list + filter */
+    .change-list-container {
+        display: flex;
+        gap: 24px;           /* jarak antar main & sidebar */
+        width: 100%;
+        align-items: flex-start;
+    }
+
+    /* Konten utama fleksibel mengambil sisa ruang */
+    .change-list-main {
+        flex: 1 1 auto;      /* fleksibel */
+        min-width: 0;        /* penting agar table wrap saat responsive */
+    }
+
+    /* Sidebar filter tetap di kanan, sticky */
+    #changelist-filter {
+        flex: 0 0 280px;     /* lebar tetap */
+        width: 280px;
+        max-width: 280px;
+        background: var(--white);
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        padding: 16px;
+        position: sticky;
+        top: 24px;
+        align-self: flex-start;
+    }
+
+
+    #changelist-filter h2 {
+        background: var(--primary-green) !important;
+        color: var(--white) !important;
+        padding: 16px 20px !important;
+        margin: 0 !important;
+        font-size: 14px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        border-radius: 12px 12px 0 0 !important;
+    }
+
+    #changelist-filter h3 {
+        background: var(--bg-light) !important;
+        color: var(--dark-green) !important;
+        padding: 14px 20px !important;
+        margin: 0 !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        border-bottom: 2px solid var(--border-color) !important;
+    }
+
+    #changelist-filter ul {
+        padding: 16px 20px !important;
+        margin: 0 !important;
+        list-style: none !important;
+    }
+
+    #changelist-filter li {
+        padding: 10px 0 !important;
+        border-bottom: 1px solid #f0f0f0 !important;
+    }
+
+    #changelist-filter li:last-child {
+        border-bottom: none !important;
+    }
+
+    #changelist-filter a {
+        color: var(--text-dark) !important;
+        text-decoration: none !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        display: block !important;
+        padding: 8px 12px !important;
+        border-radius: 6px !important;
+        transition: all 0.2s !important;
+    }
+
+    #changelist-filter a:hover {
+        background: rgba(255, 107, 53, 0.1) !important;
+        color: var(--primary-orange) !important;
+        transform: translateX(4px) !important;
+    }
+
+    #changelist-filter .selected a {
+        background: var(--primary-orange) !important;
+        color: var(--white) !important;
+        font-weight: 700 !important;
+    }
+
+    /* ===========================
+       BUTTONS
+    =========================== */
+    .button,
+    input[type="submit"],
+    input[type="button"],
+    button {
+        background: var(--primary-orange) !important;
+        color: var(--white) !important;
+        border: none !important;
+        padding: 12px 24px !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        font-size: 14px !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+    }
+
+    .button:hover,
+    input[type="submit"]:hover,
+    input[type="button"]:hover,
+    button:hover {
+        background: var(--accent-orange) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3) !important;
+    }
+
+    /* ===========================
+       TABLES
+    =========================== */
+    #result_list {
+        background: var(--white) !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    #result_list thead th {
+        background: var(--primary-green) !important;
+        color: var(--white) !important;
+        padding: 16px !important;
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+    }
+
+    #result_list tbody tr:hover {
+        background: rgba(255, 107, 53, 0.05) !important;
+    }
+
+    #result_list tbody td {
+        padding: 16px !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+    }
+
+    /* ===========================
+       STATUS BADGES
+    =========================== */
+    .status-badge {
+        display: inline-block !important;
+        padding: 6px 14px !important;
+        border-radius: 20px !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+    }
+
+    .status-planning {
+        background: #fff3cd !important;
+        color: #856404 !important;
+        border: 2px solid #ffc107 !important;
+    }
+
+    .status-ongoing {
+        background: #d1ecf1 !important;
+        color: #0c5460 !important;
+        border: 2px solid #17a2b8 !important;
+    }
+
+    .status-completed {
+        background: #d4edda !important;
+        color: #155724 !important;
+        border: 2px solid #28a745 !important;
+    }
+
+    .status-cancelled {
+        background: #f8d7da !important;
+        color: #721c24 !important;
+        border: 2px solid #dc3545 !important;
+    }
+
+    /* ===========================
+       MESSAGES
+    =========================== */
+    .messagelist li {
+        padding: 16px 20px !important;
+        border-radius: 8px !important;
+        margin-bottom: 12px !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+    }
+
+    .messagelist .success {
+        background: #d4edda !important;
+        color: #155724 !important;
+        border-left: 4px solid #28a745 !important;
+    }
+
+    .messagelist .warning {
+        background: #fff3cd !important;
+        color: #856404 !important;
+        border-left: 4px solid #ffc107 !important;
+    }
+
+    .messagelist .error {
+        background: #f8d7da !important;
+        color: #721c24 !important;
+        border-left: 4px solid #dc3545 !important;
+    }
+
+    /* ===========================
+       SEARCH BAR
+    =========================== */
+    #changelist-search {
+        background: var(--white) !important;
+        padding: 20px !important;
+        border-radius: 12px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+        margin-bottom: 20px !important;
+    }
+
+    #searchbar {
+        width: 100% !important;
+        max-width: 600px !important;
+        padding: 14px 20px !important;
+        border: 2px solid var(--border-color) !important;
+        border-radius: 8px !important;
+        font-size: 15px !important;
+        transition: all 0.2s !important;
+    }
+
+    #searchbar:focus {
+        border-color: var(--primary-orange) !important;
+        outline: none !important;
+        box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1) !important;
+    }
+
+    /* ===========================
+       ACTION BAR
+    =========================== */
+    .actions {
+        background: var(--white) !important;
+        padding: 18px 20px !important;
+        border-radius: 12px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+        margin-bottom: 20px !important;
+        display: flex !important;
+        gap: 16px !important;
+        align-items: center !important;
+        flex-wrap: wrap !important;
+    }
+
+    .actions label {
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        color: var(--dark-green) !important;
+    }
+
+    .actions select {
+        padding: 12px 16px !important;
+        border: 2px solid var(--border-color) !important;
+        border-radius: 8px !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        min-width: 220px !important;
+    }
+
+    .actions select:focus {
+        border-color: var(--primary-orange) !important;
+        outline: none !important;
+    }
+
+    /* ===========================
+       ADD BUTTON
+    =========================== */
+    .addlink {
+        background: var(--primary-green) !important;
+        color: var(--white) !important;
+        padding: 10px 20px !important;
+        border-radius: 8px !important;
+        text-decoration: none !important;
+        font-weight: 600 !important;
+        font-size: 14px !important;
+        display: inline-block !important;
+        transition: all 0.2s !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        box-shadow: 0 2px 8px rgba(61, 90, 61, 0.3) !important;
+    }
+
+    .addlink:hover {
+        background: var(--light-green) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(61, 90, 61, 0.4) !important;
+    }
+
+    /* ===========================
+       OBJECT TOOLS
+    =========================== */
+    .object-tools {
+        float: right !important;
+        margin-top: 0 !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* ===========================
+       RESPONSIVE
+    =========================== */
+    @media (max-width: 1024px) {
+        .change-list-container {
+        flex-direction: column;
+    }
+    #changelist-filter {
+        width: 100%;
+        max-width: 100%;
+        position: relative;
+        top: 0;
+        margin-bottom: 16px;
+    }
+    }
+
+    @media (max-width: 768px) {
+        #header {
+            padding: 12px 16px !important;
+        }
+
+        #branding::before {
+            width: 40px !important;
+            height: 40px !important;
+        }
+
+        #branding h1 {
+            font-size: 18px !important;
+        }
+
+        #content {
+            padding: 16px !important;
+        }
+
+        #content-main > div:nth-child(2) {
+            grid-template-columns: 1fr !important;
+        }
+    }
+</style>
+{% endblock %}
