@@ -5,18 +5,21 @@ from django.utils.html import format_html
 # Register your models here.
 class ProcurementParticipantInline(admin.TabularInline):  # Atau gunakan StackedInline
     model = ProcurementParticipant
-    extra = 1  # Jumlah form kosong yang ditampilkan
-    fields = ["procurement", "vendor", "bid_value_display","file", "file_link","submission_date", "status"]
+    extra = 0  # Jumlah form kosong yang ditampilkan
+    fields = ["procurement", "vendor", "bid_value_display", "file_link","submission_date", "status"]
     readonly_fields = ("file_link", "bid_value_display",)
+
+    def has_add_permission(self, request, obj=None):
+        return False  # semua user tidak bisa tambah data
 
     def file_link(self, obj):
         if not obj.file:
             return "-"
         return format_html(
-            '<a href="{}" target="_blank">Download</a>',
+            '<a id="download-link" href="{}" target="_blank">Download</a>',
             obj.signed_file_url
         )
-    file_link.short_description = "File URL"
+    file_link.short_description = "DOC URL"
 
 
     def bid_value_display(self, obj):
@@ -47,6 +50,17 @@ class ProcurementAdmin(admin.ModelAdmin):
     list_filter = ["status", "procurement_type"]
     search_fields = ("project__project_name",)
     inlines = [ProcurementParticipantInline]
+
+    fieldsets = (
+        ('procurement Info', {
+            'fields': ('project', 'procurement_type'),
+            'classes': ('wide',)
+        }),
+        ('Schedule', {
+            'fields': ('start_date', 'end_date', 'status'),
+            'classes': ('wide',)
+        }),
+    )
     
     def colored_status(self, obj):
         status_colors = {
@@ -73,15 +87,26 @@ class ProcurementParticipantAdmin(admin.ModelAdmin):
     list_filter = ["procurement", "vendor", "status"]
     search_fields = ("procurement",)
 
+    fieldsets = (
+        ('Procurement Info', {
+            'fields': ('procurement', 'submission_date', "status"),
+            'classes': ('wide',)
+        }),
+        ('Vendor Info', {
+            'fields': ('vendor', 'bid_value', 'file'),
+            'classes': ('wide',)
+        }),
+    )
+
     def file_link(self, obj):
         if not obj.file:
             return "-"
         return format_html(
-            '<a href="{}" target="_blank">Download</a>',
+            '<a id="download-link" href="{}" target="_blank">Download</a>',
             obj.signed_file_url
         )
 
-    file_link.short_description = "File URL"
+    file_link.short_description = "DOC URL"
 
     def bid_value_display(self, obj):
         if obj.bid_value is None:

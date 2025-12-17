@@ -6,22 +6,24 @@ from django.utils.html import format_html
 
 class VendorPersonsInline(admin.TabularInline):  # Atau gunakan StackedInline
     model = Person
-    extra = 1  # Jumlah form kosong yang ditampilkan
+    extra = 0  # Jumlah form kosong yang ditampilkan
     fields = ["full_name", "role","email", "phone"]
 
 
 # Register your models here.
 class VendorDocumentInline(admin.TabularInline):  # Atau gunakan StackedInline
     model = VendorDocument
-    extra = 1  # Jumlah form kosong yang ditampilkan
+    extra = 0  # Jumlah form kosong yang ditampilkan
     fields = ["vendor",  "document_type", "title", 'file', 'file_link',]
     readonly_fields = ('file_link',)
+
+    
 
     def file_link(self, obj):
         if not obj.file:
             return "-"
         return format_html(
-            '<a href="{}" target="_blank">Download</a>',
+            '<a id="download-link" href="{}" target="_blank">Download</a>',
             obj.signed_file_url
         )
 
@@ -34,6 +36,17 @@ class VendorAdmin(admin.ModelAdmin):
     list_filter = ["vendor_type"]
     search_fields = ("name", "npwp", "persons__full_name")
     inlines = [VendorDocumentInline, VendorPersonsInline] 
+
+    fieldsets = (
+        ('Vendor Info', {
+            'fields': ('name', 'vendor_type', 'npwp'),
+            'classes': ('wide',)
+        }),
+        ('Contact', {
+            'fields': ('address', 'email', 'phone'),
+            'classes': ('wide',)
+        }),
+    )
 
 
 admin.site.register(Vendor, VendorAdmin)

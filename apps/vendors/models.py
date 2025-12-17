@@ -29,6 +29,8 @@ class Vendor(TimeStampedModel):
     def __str__(self):
         return self.name
     
+  
+    
 
 class VendorDocument(TimeStampedModel):
     DOCUMENT_TYPE = [

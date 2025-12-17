@@ -38,6 +38,7 @@
     body {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
         background: var(--bg-light) !important;
+        padding-top: 100px !important; /* space for fixed header + breadcrumbs */
     }
 
     /* Hide original object reference in inlines */
@@ -50,14 +51,14 @@
     /* ===========================
        HEADER
     =========================== */
-    #header {
+    /* #header {
         background: var(--primary-green) !important;
         color: var(--white) !important;
         padding: 14px 24px !important;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
         display: flex !important;
         align-items: center !important;
-    }
+    } */
 
     /* Logo with Image */
     #branding {
@@ -69,8 +70,8 @@
     #branding::before {
         content: '' !important;
         display: inline-block !important;
-        width: 48px !important;
-        height: 48px !important;
+        width: 38px !important;
+        height: 38px !important;
         background-image: url('{% static "admin/img/logo-ks.jpg" %}') !important;
         background-size: contain !important;
         background-repeat: no-repeat !important;
@@ -114,6 +115,13 @@
         border-bottom: 2px solid var(--border-color) !important;
         font-size: 14px !important;
         font-weight: 500 !important;
+        position: fixed !important;
+        top: 50px !important; /* below header */
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 998 !important;
+        margin: 0 !important;
     }
 
     .breadcrumbs a {
@@ -130,9 +138,11 @@
        CONTENT LAYOUT
     =========================== */
     #content {
-        padding: 24px !important;
         max-width: 100% !important;
+        max-height: calc(100vh - 100px) !important;
         margin: 0 auto !important;
+        flex: 1 !important;
+        overflow-y: auto !important;
     }
 
     /* Remove sidebar margin for change list */
@@ -567,8 +577,18 @@
     }
 
     @media (max-width: 768px) {
+        body {
+            padding-top: 100px !important; /* smaller header + breadcrumbs */
+        }
+        
         #header {
-            padding: 12px 16px !important;
+            padding: 10px 16px !important;
+            height: 55px !important;
+        }
+        
+        .breadcrumbs {
+            top: 55px !important;
+            padding: 10px 16px !important;
         }
 
         #branding::before {

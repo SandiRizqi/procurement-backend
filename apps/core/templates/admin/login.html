@@ -44,13 +44,26 @@
     }
 
     /* ===========================
+       BOX SIZING FIX
+    =========================== */
+    .login *,
+    .login *::before,
+    .login *::after {
+        box-sizing: border-box !important;
+    }
+
+    /* ===========================
        BODY BACKGROUND
     =========================== */
     body.login {
         background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%) !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        min-height: 100vh !important;
+        padding: 20px !important;
         position: relative !important;
         overflow-x: hidden !important;
-        min-height: 100vh !important;
     }
 
     /* Animated Background Pattern */
@@ -72,12 +85,18 @@
         background: white !important;
         border-radius: 16px !important;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25) !important;
-        padding: 24px !important;
+        padding: 20px !important;
         max-width: 480px !important;
+        width: 100% !important;
+        height: auto !important;
+        max-height: 60vh !important;
+        margin: 0 !important;
         position: relative !important;
         z-index: 1 !important;
         animation: slideUp 0.6s ease-out !important;
     }
+
+    
 
     @keyframes slideUp {
         from {
@@ -91,7 +110,7 @@
     }
 
     .login #content-main {
-        padding: 24px 0 !important;
+        padding: 0 !important;
     }
 
     /* ===========================
@@ -100,7 +119,7 @@
     .login form input[type="text"],
     .login form input[type="password"] {
         width: 100% !important;
-        padding: 16px 18px !important;
+        padding: 6px 12px !important;
         border: 2px solid #e9ecef !important;
         border-radius: 10px !important;
         font-size: 15px !important;
@@ -108,6 +127,7 @@
         background: #f8f9fa !important;
         color: var(--dark-green) !important;
         font-weight: 600 !important;
+        box-sizing: border-box !important;
     }
 
     .login form input[type="text"]:focus,
@@ -129,13 +149,14 @@
     =========================== */
     .login .form-row {
         margin-bottom: 20px !important;
+        padding: 10px !important;
     }
 
     .login .form-row label {
         color: var(--dark-green) !important;
         font-weight: 700 !important;
         font-size: 13px !important;
-        margin-bottom: 10px !important;
+        margin-bottom: 5px !important;
         display: block !important;
         text-transform: uppercase !important;
         letter-spacing: 0.5px !important;
@@ -145,16 +166,17 @@
        SUBMIT BUTTON
     =========================== */
     .login .submit-row {
-        padding: 28px 0 0 0 !important;
-        border-top: 2px solid #f0f0f0 !important;
+        padding: 28px !important;
         margin-top: 28px !important;
+        box-shadow: none;
+       
     }
 
     .login input[type="submit"] {
         background: var(--primary-orange) !important;
         color: white !important;
         border: none !important;
-        padding: 16px 40px !important;
+        padding: 20px 30px !important;
         border-radius: 10px !important;
         font-weight: 800 !important;
         font-size: 15px !important;
@@ -210,6 +232,7 @@
         color: #6c757d !important;
         font-size: 13px !important;
         font-weight: 500 !important;
+        display: none;
     }
 
     /* ===========================
@@ -233,18 +256,19 @@
     }
 
     /* ===========================
-       WELCOME MESSAGE
+       WELCOME MESSAGE WITH LOGO
     =========================== */
     .login-message {
         background: linear-gradient(135deg, 
                     rgba(255, 107, 53, 0.08) 0%, 
                     rgba(61, 90, 61, 0.08) 100%) !important;
         border-left: 5px solid var(--primary-orange) !important;
-        padding: 18px 24px !important;
+        padding: 20px 24px !important;
         border-radius: 10px !important;
-        margin-bottom: 32px !important;
+        margin-bottom: 28px !important;
         color: var(--dark-green) !important;
         animation: fadeIn 0.8s ease-out 0.3s both !important;
+        text-align: center !important;
     }
 
     @keyframes fadeIn {
@@ -256,9 +280,19 @@
         }
     }
 
+    .login-message .welcome-logo {
+        width: 80px !important;
+        height: 80px !important;
+        margin: 0 auto 16px auto !important;
+        display: block !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 12px rgba(61, 90, 61, 0.2) !important;
+        border: 3px solid white !important;
+    }
+
     .login-message strong {
         display: block !important;
-        font-size: 16px !important;
+        font-size: 18px !important;
         margin-bottom: 8px !important;
         color: var(--primary-orange) !important;
         font-weight: 800 !important;
@@ -287,10 +321,13 @@
        RESPONSIVE
     =========================== */
     @media (max-width: 640px) {
+        body.login {
+            padding: 15px !important;
+        }
+        
         .login #container {
-            padding: 32px 28px !important;
-            margin: 20px !important;
-            max-width: calc(100% - 40px) !important;
+            padding: 32px 24px !important;
+            max-width: 100% !important;
         }
 
         h1 {
@@ -304,6 +341,11 @@
         img[alt="{{ COMPANY_NAME }} logo"] {
             width: 100px !important;
             height: 100px !important;
+        }
+        
+        .login-message .welcome-logo {
+            width: 70px !important;
+            height: 70px !important;
         }
 
         .login form input[type="text"],
@@ -320,12 +362,11 @@
 
     @media (max-width: 480px) {
         body.login {
-            padding: 20px !important;
+            padding: 10px !important;
         }
 
         .login #container {
             padding: 24px 20px !important;
-            margin: 10px !important;
         }
 
         h1 {
@@ -335,6 +376,11 @@
         img[alt="{{ COMPANY_NAME }} logo"] {
             width: 90px !important;
             height: 90px !important;
+        }
+        
+        .login-message .welcome-logo {
+            width: 60px !important;
+            height: 60px !important;
         }
     }
 
@@ -368,13 +414,21 @@
 
     .login #content {
         padding: 0 !important;
+        height: auto !important;
+    }
+
+    .login #main {
+        max-width: 100% !important;
     }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="login-message">
-    <strong>👋 Selamat Datang!</strong>
+    <img src="{% static 'admin/img/logo-ks.jpg' %}" 
+         alt="Logo" 
+         class="welcome-logo">
+    <span>Welcome!</span>
     <p>Silakan masukkan kredensial Anda untuk mengakses sistem manajemen proyek procurement</p>
 </div>
 {{ block.super }}

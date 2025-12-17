@@ -8,7 +8,7 @@ from django.utils.html import format_html
 # Register your models here.
 class PersonDocumentInline(admin.TabularInline):  # Atau gunakan StackedInline
     model = PersonDocument
-    extra = 1  # Jumlah form kosong yang ditampilkan
+    extra = 0  # Jumlah form kosong yang ditampilkan
     fields = ["title", 'file', 'file_link', 'issued_date']
     readonly_fields = ('file_link',)
 
@@ -16,7 +16,7 @@ class PersonDocumentInline(admin.TabularInline):  # Atau gunakan StackedInline
         if not obj.file:
             return "-"
         return format_html(
-            '<a href="{}" target="_blank">Download</a>',
+            '<a id="download-link" href="{}" target="_blank">Download</a>',
             obj.signed_file_url
         )
 

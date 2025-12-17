@@ -13,7 +13,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+import mimetypes
 
+
+mimetypes.add_type("text/css", ".css", True)
 load_dotenv()
 
 
@@ -30,7 +33,7 @@ SECRET_KEY = 'django-insecure-)9_8dd%%0sfv+0l-7_a-j+f3i*dw)m3mret+=m($*_y8rw1c*x
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Force DEBUG to True for development
-DEBUG = True  # os.getenv('DEBUG', 'False').lower() in ('true', '1', 'yes')
+DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 'yes')
 
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'dev') 
 

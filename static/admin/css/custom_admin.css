@@ -32,6 +32,14 @@ body {
     line-height: 1.6 !important;
     color: var(--text-dark) !important;
     background: var(--bg-light) !important;
+    padding-top: 110px !important; /* space for fixed header + breadcrumbs (60px + 50px) */
+}
+
+#container {
+    display: flex;
+    flex-direction: row; /* sidebar + content */
+    max-height: calc(100vh - 100px) !important; /* full height minus header and breadcrumbs */
+    overflow-y: hidden !important; /* allow vertical scroll */
 }
 
 /* ===========================
@@ -45,12 +53,19 @@ body {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
+    height: 50px !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
 }
 
 #branding {
     display: flex !important;
     align-items: center !important;
     gap: 16px !important;
+    
 }
 
 #branding h1 {
@@ -100,10 +115,18 @@ caption {
 =========================== */
 .breadcrumbs {
     background: var(--white) !important;
-    padding: 14px 24px !important;
+    padding: 14px 12px !important;
     font-size: 16px !important;
     border-bottom: 2px solid var(--border-color) !important;
     font-weight: 500 !important;
+    position: fixed !important; /* changed to fixed */
+    top: 50px !important; /* below header */
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 998 !important;
+    height: 50px !important;
+    margin: 0 !important;
 }
 
 .breadcrumbs a {
@@ -121,10 +144,15 @@ caption {
    CONTENT AREA
 =========================== */
 #content {
-    padding: 24px !important;
-    max-width: 1400px !important;
-    margin: 0 auto !important;
+    width: 100%;
+    max-width: 1400px;      
+    margin: 60px auto 0 auto;  /* header height + center */
+    padding: 20px;
+    flex: 1;
+    overflow-y: auto;
+    height: calc(100vh - 60px);
 }
+
 
 /* Remove sidebar margin for cleaner layout */
 .change-list #content {
@@ -141,7 +169,7 @@ caption {
 =========================== */
 h1 {
     font-size: 28px !important;
-    font-weight: 700 !important;
+    font-weight: 500 !important;
     color: var(--dark-green) !important;
     margin-bottom: 20px !important;
     line-height: 1.3 !important;
@@ -149,7 +177,7 @@ h1 {
 
 h2 {
     font-size: 20px !important;
-    font-weight: 700 !important;
+    font-weight: 500 !important;
     color: var(--dark-green) !important;
     margin-bottom: 16px !important;
     line-height: 1.3 !important;
@@ -157,19 +185,22 @@ h2 {
 
 h3 {
     font-size: 16px !important;
-    font-weight: 600 !important;
+    font-weight: 300 !important;
     color: var(--dark-green) !important;
     margin-bottom: 12px !important;
 }
 
 h4 {
     font-size: 14px !important;
-    font-weight: 600 !important;
+    font-weight: 300 !important;
     color: var(--text-dark) !important;
     margin-bottom: 10px !important;
 }
 
-
+#download-link {
+    color: var(--primary-orange) !important;
+    font-weight: 700 !important;
+}
 
 
 /* ===========================
@@ -185,7 +216,7 @@ input[type="datetime-local"],
 input[type="time"],
 textarea,
 select {
-    padding: 12px 16px !important;
+    padding: 8px 12px !important;
     border: 2px solid var(--border-color) !important;
     border-radius: 8px !important;
     font-size: 14px !important;
@@ -529,7 +560,7 @@ input[type="submit"].default:hover,
 }
 
 .actions select {
-    padding: 12px 16px !important;
+    padding: 6px 12px !important;
     min-width: 220px !important;
     font-size: 14px !important;
 }
@@ -645,7 +676,7 @@ input[type="submit"].default:hover,
    FORM ROWS
 =========================== */
 .form-row {
-    padding: 40px 16px !important;
+    padding: 20px 16px !important;
     margin: 16px !important;
     border-radius: 8px !important;
     background: var(--white) !important;
@@ -715,7 +746,7 @@ input[type="submit"].default:hover,
 .inline-group {
     background: var(--bg-light) !important;
     border-radius: 12px !important;
-    padding: 20px !important;
+    padding: 0 !important;
     margin-bottom: 24px !important;
 }
 
@@ -748,6 +779,10 @@ fieldset.module {
     border: none !important;
     box-shadow: var(--shadow-md) !important;
     overflow: hidden !important;
+}
+
+.wide {
+    max-width: 50% !important;
 }
 
 fieldset.module h2 {
@@ -822,6 +857,9 @@ input[type="file"]:hover {
     transition: all 0.2s !important;
     box-shadow: var(--shadow-md) !important;
     padding: 0 !important;
+    position: sticky !important;
+    top: 10px !important; /* below header + breadcrumbs */
+    height: calc(100vh - 100px) !important;
 }
 
 .toggle-nav-sidebar:hover {
@@ -833,6 +871,16 @@ input[type="file"]:hover {
     line-height: 1 !important;
     display: block !important;
     text-align: center !important;
+}
+
+/* ===========================
+   SIDEBAR NAVIGATION
+=========================== */
+#nav-sidebar {
+    position: sticky !important;
+    top: 110px !important; /* below header + breadcrumbs */
+    height: calc(100vh - 110px) !important;
+    overflow-y: auto !important;
 }
 
 /* ===========================
@@ -856,6 +904,24 @@ input[type="file"]:hover {
     background: var(--dark-green) !important;
 }
 
+/* Thin scrollbar for sidebar */
+#nav-sidebar::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+#nav-sidebar::-webkit-scrollbar-track {
+    background: transparent !important;
+}
+
+#nav-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(61, 90, 61, 0.3) !important;
+    border-radius: 4px !important;
+}
+
+#nav-sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(61, 90, 61, 0.5) !important;
+}
+
 /* ===========================
    RESPONSIVE DESIGN
 =========================== */
@@ -874,8 +940,28 @@ input[type="file"]:hover {
 }
 
 @media (max-width: 768px) {
+    body {
+        padding-top: 100px !important; /* smaller header (55px) + breadcrumbs (45px) */
+    }
+    
     #header {
-        padding: 12px 16px !important;
+        padding: 10px 16px !important;
+        height: 55px !important;
+    }
+    
+    .breadcrumbs {
+        top: 55px !important; /* adjust for smaller header */
+        padding: 10px 16px !important;
+    }
+    
+    #container {
+        min-height: calc(100vh - 100px) !important;
+    }
+    
+    #nav-sidebar,
+    .toggle-nav-sidebar {
+        top: 100px !important; /* below header + breadcrumbs */
+        height: calc(100vh - 100px) !important;
     }
     
     #branding h1 {
