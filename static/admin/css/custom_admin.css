@@ -143,6 +143,8 @@ caption {
 /* ===========================
    CONTENT AREA
 =========================== */
+
+
 #content {
     width: 100%;
     max-width: 1400px;      
@@ -151,6 +153,11 @@ caption {
     flex: 1;
     overflow-y: auto;
     height: calc(100vh - 60px);
+}
+
+.content .colMS {
+    width: 100% !important;
+    height: 100vh !important;
 }
 
 
