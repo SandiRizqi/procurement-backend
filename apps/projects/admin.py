@@ -24,11 +24,11 @@ class ProjectAdmin(admin.ModelAdmin):
     actions = ['mark_as_ongoing', 'mark_as_completed', 'mark_as_cancelled']
     
     fieldsets = (
-        ('📋 Informasi Proyek', {
+        ('Project Info', {
             'fields': ('project_name', 'project_value'),
             'classes': ('wide',)
         }),
-        ('📅 Jadwal', {
+        ('Schedule', {
             'fields': ('start_date', 'end_date', 'status'),
             'classes': ('wide',)
         }),
@@ -49,14 +49,8 @@ class ProjectAdmin(admin.ModelAdmin):
         # Format currency with separator
         formatted_value = f"Rp {value:,.2f}".replace(',', '.')
         
-        # Color based on value
-        if value >= 10000000000:  # >= 10 Milyar
-            color = '#28a745'
-        elif value >= 1000000000:  # >= 1 Milyar
-            color = '#17a2b8'
-         
-        else:
-            color = '#6c757d'
+       
+        color = '#6c757d'
     
         
         return format_html(
@@ -127,13 +121,11 @@ class ProjectAdmin(admin.ModelAdmin):
             'padding: 8px 16px; border-radius: 20px; '
             'background: {}; border: 2px solid {}; '
             'font-weight: 600; font-size: 13px; color: {};">'
-            '<span style="font-size: 16px;">{}</span>'
             '<span>{}</span>'
             '</div>',
             config['bg_color'],
             config['border'],
             config['color'],
-            config['icon'],
             config['label']
         )
     status_display.short_description = 'Status'
@@ -212,13 +204,15 @@ class ProjectAdmin(admin.ModelAdmin):
         # Calculate statistics
         total_projects = Project.objects.count()
         total_value = Project.objects.aggregate(Sum('project_value'))['project_value__sum'] or 0
+         # Format as Rupiah (e.g., 10.000.000)
+        formatted_total_value = f"Rp {total_value:,.0f}".replace(",", ".")
         
         status_counts = {}
         for status_code, status_label in Project.STATUS:
             status_counts[status_code] = Project.objects.filter(status=status_code).count()
         
         extra_context['total_projects'] = total_projects
-        extra_context['total_value'] = total_value
+        extra_context['total_value'] = formatted_total_value
         extra_context['status_counts'] = status_counts
         
         return super().changelist_view(request, extra_context=extra_context)

@@ -40,6 +40,13 @@
         background: var(--bg-light) !important;
     }
 
+    /* Hide original object reference in inlines */
+.original {
+    display: none !important;
+}
+
+
+
     /* ===========================
        HEADER
     =========================== */
@@ -167,12 +174,12 @@
     /* ===========================
        DASHBOARD CARDS
     =========================== */
-    #content-main > div:nth-child(2) {
+    /* #content-main > div:nth-child(2) {
         display: grid !important;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
         gap: 20px !important;
         margin-bottom: 24px !important;
-    }
+    } */
 
     #content-main > div:nth-child(2) > div {
         background: var(--white) !important;
@@ -537,11 +544,11 @@
     /* ===========================
        OBJECT TOOLS
     =========================== */
-    .object-tools {
+    /* .object-tools {
         float: right !important;
         margin-top: 0 !important;
         margin-bottom: 20px !important;
-    }
+    } */
 
     /* ===========================
        RESPONSIVE

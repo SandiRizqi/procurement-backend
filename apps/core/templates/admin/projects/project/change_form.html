@@ -396,13 +396,13 @@
         <span style="font-size: 42px;">💼</span>
         <div style="flex: 1; min-width: 280px;">
             <h2 style="margin: 0; color: var(--dark-green); font-size: 24px; font-weight: 700;">
-                {% if original %}Edit Proyek{% else %}Tambah Proyek Baru{% endif %}
+                {% if original %}Edit Proyek{% else %}Add a New Project{% endif %}
             </h2>
             <p style="margin: 8px 0 0 0; color: #6c757d; font-size: 15px; line-height: 1.5;">
                 {% if original %}
-                    Perbarui informasi untuk proyek <strong style="color: var(--primary-orange);">{{ original.project_name }}</strong>
+                    Update the information for the project <strong style="color: var(--primary-orange);">{{ original.project_name }}</strong>
                 {% else %}
-                    Lengkapi formulir di bawah untuk menambahkan proyek baru ke dalam sistem
+                    Fill out the form below to add a new project to the system
                 {% endif %}
             </p>
         </div>

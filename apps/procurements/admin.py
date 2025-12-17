@@ -6,8 +6,8 @@ from django.utils.html import format_html
 class ProcurementParticipantInline(admin.TabularInline):  # Atau gunakan StackedInline
     model = ProcurementParticipant
     extra = 1  # Jumlah form kosong yang ditampilkan
-    fields = ["procurement", "vendor", "bid_value","file", "file_link","submission_date", "status"]
-    readonly_fields = ("file_link",)
+    fields = ["procurement", "vendor", "bid_value_display","file", "file_link","submission_date", "status"]
+    readonly_fields = ("file_link", "bid_value_display",)
 
     def file_link(self, obj):
         if not obj.file:
@@ -17,6 +17,25 @@ class ProcurementParticipantInline(admin.TabularInline):  # Atau gunakan Stacked
             obj.signed_file_url
         )
     file_link.short_description = "File URL"
+
+
+    def bid_value_display(self, obj):
+        if obj.bid_value is None:
+            return "-"
+
+        value = float(obj.bid_value)
+        formatted_value = f"Rp {value:,.2f}".replace(',', '.')
+        color = '#6c757d'
+
+        return format_html(
+            '<div style="display: flex; align-items: center; gap: 8px;">'
+            '<span style="font-weight: 600; color: {}; font-size: 14px;">{}</span>'
+            '</div>',
+            color, formatted_value
+        )
+
+    bid_value_display.short_description = 'BID'
+    bid_value_display.admin_order_field = 'bid_value'
  
 
 
@@ -50,7 +69,7 @@ class ProcurementAdmin(admin.ModelAdmin):
 class ProcurementParticipantAdmin(admin.ModelAdmin):
     model = ProcurementParticipant
     ordering = ('-submission_date',)
-    list_display = ["procurement", "vendor", "bid_value", "file_link", "submission_date", "status"]
+    list_display = ["procurement", "vendor", "bid_value_display", "file_link", "submission_date", "status"]
     list_filter = ["procurement", "vendor", "status"]
     search_fields = ("procurement",)
 
@@ -63,6 +82,25 @@ class ProcurementParticipantAdmin(admin.ModelAdmin):
         )
 
     file_link.short_description = "File URL"
+
+    def bid_value_display(self, obj):
+        if obj.bid_value is None:
+            return "-"
+
+        value = float(obj.bid_value)
+        formatted_value = f"Rp {value:,.2f}".replace(',', '.')
+        color = '#6c757d'
+
+        return format_html(
+            '<div style="display: flex; align-items: center; gap: 8px;">'
+            '<span style="font-weight: 600; color: {}; font-size: 14px;">{}</span>'
+            '</div>',
+            color, formatted_value
+        )
+
+    bid_value_display.short_description = 'BID'
+    bid_value_display.admin_order_field = 'bid_value'
+ 
 
 admin.site.register(Procurement, ProcurementAdmin)
 admin.site.register(ProcurementParticipant, ProcurementParticipantAdmin)
