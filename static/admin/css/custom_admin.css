@@ -34,6 +34,12 @@ body {
     background: var(--bg-light) !important;
 }
 
+body.dashboard > #container {
+    position: absolute; /* atau fixed */
+    top: 50px;          /* jarak dari atas */
+    
+    
+}
 
 body.dashboard #content {
     display: flex;
@@ -50,38 +56,32 @@ body.dashboard #content > h1 {
     display: none;
 }
 
-/* Main + Related padding */
+/* Padding untuk main + related */
 body.dashboard #content > #content-main,
 body.dashboard #content > #content-related {
     padding: 10px;
     box-sizing: border-box;
 }
 
-/* Atur ukuran main + related */
-body.dashboard #content > #content-main {
-    max-width: 500px;
-}
-
-body.dashboard #content > #content-related {
-    max-width: 300px;
-}
-
 /* Layar besar: horizontal row */
 @media (min-width: 768px) {
     body.dashboard #content {
         flex-direction: row; /* horizontal */
-        justify-content: space-between;
+        justify-content: center;
         align-items: flex-start;
+        min-height: calc(100vh - 50px) !important;
     }
 
     body.dashboard #content > #content-main {
-        flex: 1 1 60%; /* grow, shrink, basis */
-        max-width: none;
+        flex: 1 1 60%; /* main bisa grow, basis 60% */
+        min-width: 0;  /* penting agar flex-shrink bekerja */
+        max-width: 500px !important;
     }
 
     body.dashboard #content > #content-related {
-        flex: 0 0 35%; /* tetap proporsional */
-        max-width: none;
+        flex: 0 0 35%; /* tetap 35% lebar */
+        min-width: 0;  /* agar tidak overflow */
+        max-width: 300px !important;
     }
 }
 
@@ -404,28 +404,38 @@ input[type="submit"].default:hover,
 /* ===========================
        DELETE BUTTON
     =========================== */
-    .deletelink,
-    .deletelink-box a {
-        background: #dc3545 !important;
-        color: white !important;
-        padding: 14px 32px !important;
-        border-radius: 8px !important;
-        font-weight: 700 !important;
-        text-decoration: none !important;
-        display: inline-block !important;
-        transition: all 0.2s !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.5px !important;
-        font-size: 14px !important;
-        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
-    }
+.deletelink-box {
+    display: flex;
+    align-items: center;   /* vertical centering */
+    justify-content: center; /* horizontal centering */
+    gap: 10px; /* optional, jarak antar link */
+}
 
-    .deletelink:hover,
-    .deletelink-box a:hover {
-        background: #c82333 !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4) !important;
-    }
+.deletelink,
+.deletelink-box a {
+    display: flex !important;          /* ubah dari inline-block ke flex */
+    align-items: center;               /* vertical centering teks */
+    justify-content: center;           /* horizontal center teks */
+    background: #dc3545 !important;
+    color: white !important;
+    padding: 14px 32px !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    transition: all 0.2s !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    font-size: 14px !important;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
+}
+
+.deletelink:hover,
+.deletelink-box a:hover {
+    background: #c82333 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4) !important;
+}
+
 
 /* Add Link Button */
 .addlink, a.addlink {
