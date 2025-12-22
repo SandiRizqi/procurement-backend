@@ -35,60 +35,53 @@ body {
 }
 
 
-
 body.dashboard #content {
-    display: flex !important;
-    flex-direction: row !important; /* header di atas, konten di bawah */
-    height: 100vh; /* full viewport minus header fixed */
-    width: 100% !important;
+    display: flex;
+    flex-direction: column; /* default: stack vertical */
+    height: 100vh;
+    width: 100%;
     padding: 20px;
     box-sizing: border-box;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; /* scroll muncul di #content-main/#content-related saja */
+    overflow: hidden;
 }
 
 /* Header tetap di atas */
 body.dashboard #content > h1 {
-    display: none !important;
+    display: none;
 }
 
-/* Buat main + related berjajar horizontal menggunakan flex */
+/* Main + Related padding */
 body.dashboard #content > #content-main,
 body.dashboard #content > #content-related {
     padding: 10px;
     box-sizing: border-box;
 }
 
-/* Gunakan flex-grow agar main + related menempati sisa ruang */
+/* Atur ukuran main + related */
 body.dashboard #content > #content-main {
-    max-width: 500px !important;
+    max-width: 500px;
 }
 
 body.dashboard #content > #content-related {
-    max-width: 300px !important;
+    max-width: 300px;
 }
 
-
-
-/* Gunakan media query untuk responsive: stack vertical jika layar sempit */
+/* Layar besar: horizontal row */
 @media (min-width: 768px) {
     body.dashboard #content {
-        flex-direction: column; /* tetap column overall */
-    }
-
-    body.dashboard #content > #content-main,
-    body.dashboard #content > #content-related {
-        display: inline-block; /* horizontal row effect */
-        vertical-align: top;
+        flex-direction: row; /* horizontal */
+        justify-content: space-between;
+        align-items: flex-start;
     }
 
     body.dashboard #content > #content-main {
-        width: 50%;
+        flex: 1 1 60%; /* grow, shrink, basis */
+        max-width: none;
     }
 
     body.dashboard #content > #content-related {
-        width: 50%;
+        flex: 0 0 35%; /* tetap proporsional */
+        max-width: none;
     }
 }
 
