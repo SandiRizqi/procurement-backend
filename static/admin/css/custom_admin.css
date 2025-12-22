@@ -35,12 +35,18 @@ body {
     padding-top: 110px !important; /* space for fixed header + breadcrumbs (60px + 50px) */
 }
 
+body.dashboard #container {
+    max-height: calc(100vh - 50px) !important;
+}
+
 #container {
     display: flex;
     flex-direction: row; /* sidebar + content */
     max-height: calc(100vh - 100px) !important; /* full height minus header and breadcrumbs */
     overflow-y: hidden !important; /* allow vertical scroll */
 }
+
+
 
 /* ===========================
    HEADER & NAVIGATION
@@ -152,13 +158,13 @@ caption {
     padding: 20px;
     flex: 1;
     overflow-y: auto;
-    height: calc(100vh - 60px);
+    height: calc(100vh - 50px);
 }
 
-.content .colMS {
+/* .content .colMS {
     width: 100% !important;
     height: 100vh !important;
-}
+} */
 
 
 /* Remove sidebar margin for cleaner layout */
@@ -457,6 +463,7 @@ input[type="submit"].default:hover,
 #result_list thead th a {
     color: var(--white) !important;
     text-decoration: none !important;
+    border: none !important;
 }
 
 #result_list tbody tr {
