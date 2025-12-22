@@ -467,9 +467,11 @@ input[type="submit"].default:hover,
 }
 
 #result_list tbody tr {
-    border-bottom: 1px solid var(--border-color) !important;
+    /* border-bottom: 1px solid var(--border-color) !important; */
     transition: all 0.2s !important;
     background: var(--white) !important;
+    
+    border: none !important;
 }
 
 #result_list tbody tr:hover {
