@@ -32,17 +32,70 @@ body {
     line-height: 1.6 !important;
     color: var(--text-dark) !important;
     background: var(--bg-light) !important;
-    padding-top: 110px !important; /* space for fixed header + breadcrumbs (60px + 50px) */
 }
 
-body.dashboard #container {
-    height: calc(100vh - 50px) !important;
+
+
+body.dashboard #content {
+    display: flex !important;
+    flex-direction: row !important; /* header di atas, konten di bawah */
+    height: 100vh; /* full viewport minus header fixed */
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden; /* scroll muncul di #content-main/#content-related saja */
 }
+
+/* Header tetap di atas */
+body.dashboard #content > h1 {
+    display: none !important;
+}
+
+/* Buat main + related berjajar horizontal menggunakan flex */
+body.dashboard #content > #content-main,
+body.dashboard #content > #content-related {
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* Gunakan flex-grow agar main + related menempati sisa ruang */
+body.dashboard #content > #content-main {
+    flex: 2 !important; /* proporsi lebar utama */
+}
+
+body.dashboard #content > #content-related {
+    flex: 1 !important; /* proporsi sidebar */
+}
+
+
+
+/* Gunakan media query untuk responsive: stack vertical jika layar sempit */
+@media (min-width: 768px) {
+    body.dashboard #content {
+        flex-direction: column; /* tetap column overall */
+    }
+
+    body.dashboard #content > #content-main,
+    body.dashboard #content > #content-related {
+        display: inline-block; /* horizontal row effect */
+        vertical-align: top;
+    }
+
+    body.dashboard #content > #content-main {
+        width: 65%;
+    }
+
+    body.dashboard #content > #content-related {
+        width: 30%;
+    }
+}
+
+
 
 #container {
     display: flex;
     flex-direction: row; /* sidebar + content */
-    max-height: calc(100vh - 100px) !important; /* full height minus header and breadcrumbs */
+    max-height: calc(100vh - 50px) !important; /* full height minus header and breadcrumbs */
     overflow-y: hidden !important; /* allow vertical scroll */
 }
 
@@ -158,6 +211,7 @@ caption {
     padding: 20px;
     flex: 1;
     overflow-y: auto;
+    overflow-x: auto;
     height: calc(100vh - 50px);
 }
 
@@ -175,6 +229,7 @@ caption {
 .change-list #content-main {
     width: 100% !important;
     float: none !important;
+ 
 }
 
 /* ===========================
@@ -903,8 +958,8 @@ input[type="file"]:hover {
    SCROLLBAR
 =========================== */
 ::-webkit-scrollbar {
-    width: 12px !important;
-    height: 12px !important;
+    width: 8px !important;
+    height: 8px !important;
 }
 
 ::-webkit-scrollbar-track {
