@@ -40,9 +40,11 @@ body.dashboard #content {
     display: flex !important;
     flex-direction: row !important; /* header di atas, konten di bawah */
     height: 100vh; /* full viewport minus header fixed */
-    width: 100%;
+    width: 100% !important;
     padding: 20px;
     box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
     overflow: hidden; /* scroll muncul di #content-main/#content-related saja */
 }
 
@@ -60,11 +62,11 @@ body.dashboard #content > #content-related {
 
 /* Gunakan flex-grow agar main + related menempati sisa ruang */
 body.dashboard #content > #content-main {
-    flex: 2 !important; /* proporsi lebar utama */
+    max-width: 500px !important;
 }
 
 body.dashboard #content > #content-related {
-    flex: 1 !important; /* proporsi sidebar */
+    max-width: 300px !important;
 }
 
 
@@ -82,11 +84,11 @@ body.dashboard #content > #content-related {
     }
 
     body.dashboard #content > #content-main {
-        width: 65%;
+        width: 50%;
     }
 
     body.dashboard #content > #content-related {
-        width: 30%;
+        width: 50%;
     }
 }
 
