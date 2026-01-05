@@ -32,15 +32,69 @@ body {
     line-height: 1.6 !important;
     color: var(--text-dark) !important;
     background: var(--bg-light) !important;
-    padding-top: 110px !important; /* space for fixed header + breadcrumbs (60px + 50px) */
 }
+
+body.dashboard > #container {
+    position: absolute; /* atau fixed */
+    top: 50px;          /* jarak dari atas */
+    
+    
+}
+
+body.dashboard #content {
+    display: flex;
+    flex-direction: column; /* default: stack vertical */
+    height: 100vh;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Header tetap di atas */
+body.dashboard #content > h1 {
+    display: none;
+}
+
+/* Padding untuk main + related */
+body.dashboard #content > #content-main,
+body.dashboard #content > #content-related {
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* Layar besar: horizontal row */
+@media (min-width: 768px) {
+    body.dashboard #content {
+        flex-direction: row; /* horizontal */
+        justify-content: center;
+        align-items: flex-start;
+        min-height: calc(100vh - 50px) !important;
+    }
+
+    body.dashboard #content > #content-main {
+        flex: 1 1 60%; /* main bisa grow, basis 60% */
+        min-width: 0;  /* penting agar flex-shrink bekerja */
+        max-width: 500px !important;
+    }
+
+    body.dashboard #content > #content-related {
+        flex: 0 0 35%; /* tetap 35% lebar */
+        min-width: 0;  /* agar tidak overflow */
+        max-width: 300px !important;
+    }
+}
+
+
 
 #container {
     display: flex;
     flex-direction: row; /* sidebar + content */
-    max-height: calc(100vh - 100px) !important; /* full height minus header and breadcrumbs */
+    max-height: calc(100vh - 50px) !important; /* full height minus header and breadcrumbs */
     overflow-y: hidden !important; /* allow vertical scroll */
 }
+
+
 
 /* ===========================
    HEADER & NAVIGATION
@@ -152,13 +206,14 @@ caption {
     padding: 20px;
     flex: 1;
     overflow-y: auto;
-    height: calc(100vh - 60px);
+    overflow-x: auto;
+    height: calc(100vh - 50px);
 }
 
-.content .colMS {
+/* .content .colMS {
     width: 100% !important;
     height: 100vh !important;
-}
+} */
 
 
 /* Remove sidebar margin for cleaner layout */
@@ -169,6 +224,7 @@ caption {
 .change-list #content-main {
     width: 100% !important;
     float: none !important;
+ 
 }
 
 /* ===========================
@@ -348,28 +404,38 @@ input[type="submit"].default:hover,
 /* ===========================
        DELETE BUTTON
     =========================== */
-    .deletelink,
-    .deletelink-box a {
-        background: #dc3545 !important;
-        color: white !important;
-        padding: 14px 32px !important;
-        border-radius: 8px !important;
-        font-weight: 700 !important;
-        text-decoration: none !important;
-        display: inline-block !important;
-        transition: all 0.2s !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.5px !important;
-        font-size: 14px !important;
-        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
-    }
+.deletelink-box {
+    display: flex;
+    align-items: center;   /* vertical centering */
+    justify-content: center; /* horizontal centering */
+    gap: 10px; /* optional, jarak antar link */
+}
 
-    .deletelink:hover,
-    .deletelink-box a:hover {
-        background: #c82333 !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4) !important;
-    }
+.deletelink,
+.deletelink-box a {
+    display: flex !important;          /* ubah dari inline-block ke flex */
+    align-items: center;               /* vertical centering teks */
+    justify-content: center;           /* horizontal center teks */
+    background: #dc3545 !important;
+    color: white !important;
+    padding: 14px 32px !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    transition: all 0.2s !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    font-size: 14px !important;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
+}
+
+.deletelink:hover,
+.deletelink-box a:hover {
+    background: #c82333 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4) !important;
+}
+
 
 /* Add Link Button */
 .addlink, a.addlink {
@@ -457,12 +523,15 @@ input[type="submit"].default:hover,
 #result_list thead th a {
     color: var(--white) !important;
     text-decoration: none !important;
+    border: none !important;
 }
 
 #result_list tbody tr {
-    border-bottom: 1px solid var(--border-color) !important;
+    /* border-bottom: 1px solid var(--border-color) !important; */
     transition: all 0.2s !important;
     background: var(--white) !important;
+
+    border: none !important;
 }
 
 #result_list tbody tr:hover {
@@ -894,8 +963,8 @@ input[type="file"]:hover {
    SCROLLBAR
 =========================== */
 ::-webkit-scrollbar {
-    width: 12px !important;
-    height: 12px !important;
+    width: 8px !important;
+    height: 8px !important;
 }
 
 ::-webkit-scrollbar-track {
