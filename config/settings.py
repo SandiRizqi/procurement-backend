@@ -46,7 +46,7 @@ SESSION_COOKIE_SECURE = False
 
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-CSRF_TRUSTED_ORIGINS = ['https://project-management-278881327745.asia-southeast2.run.app']
+CSRF_TRUSTED_ORIGINS = ['https://project-management-278881327745.asia-southeast2.run.app', 'https://ksc-stack-278881327745.asia-southeast1.run.app']
 
 # Application definition
 
