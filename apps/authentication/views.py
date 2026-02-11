@@ -4,6 +4,10 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework import status
 from .serializers import LoginSerializer
+from rest_framework.permissions import IsAuthenticated
+from .permissions_map import ENDPOINT_PERMISSIONS
+
+
 
 class LoginView(APIView):
     def post(self, request):
@@ -31,3 +35,16 @@ class LoginView(APIView):
             )
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PermissionListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        """
+        Return all endpoints with granted status for the user
+        """
+        result = {}
+        for endpoint, codename in ENDPOINT_PERMISSIONS.items():
+            result[endpoint] = request.user.has_perm(codename)
+        return Response(result)
