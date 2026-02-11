@@ -13,15 +13,16 @@ def document_upload_to(instance, filename):
 # Create your models here.
 class Person(TimeStampedModel):
     vendor = models.ForeignKey(
-        'vendors.Vendor', on_delete=models.CASCADE, related_name='persons'
+        'vendors.Vendor', on_delete=models.SET_NULL, related_name='persons', null=True, blank=True
     )
     full_name = models.CharField(max_length=255, blank=False, null=False, unique=True)
     role = models.CharField(max_length=100)
     email = models.EmailField(blank=True)
+    skills = models.JSONField(default=list, blank=True)
     phone = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
-        return f'{self.vendor.name}-{self.full_name}'
+        return f'{self.full_name}-{self.role}'
 
 
 class PersonDocument(TimeStampedModel):

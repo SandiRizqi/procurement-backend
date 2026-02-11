@@ -20,7 +20,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-     path('auth/', include('apps.authentication.urls')),
+    path('auth/', include('apps.authentication.urls')),
+    path('person/', include('apps.persons.urls')),
+     
 ]
 
 # Serve static files during development
