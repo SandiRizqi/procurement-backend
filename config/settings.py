@@ -65,10 +65,7 @@ INSTALLED_APPS = [
 
 
     'apps.authentication',
-    'apps.vendors',
-    'apps.persons',
-    'apps.projects',
-    'apps.procurements'
+    'apps.inventaris'
 ]
 
 MIDDLEWARE = [
